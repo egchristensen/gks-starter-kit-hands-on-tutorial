@@ -61,6 +61,19 @@ if IN_COLAB:
             ],
             check=True,
         )
+    else:
+        subprocess.run(
+            [
+                "git",
+                "-C",
+                str(repository_root),
+                "pull",
+                "--ff-only",
+                "origin",
+                "main",
+            ],
+            check=True,
+        )
     subprocess.run(
         [
             sys.executable,
@@ -96,7 +109,6 @@ else:
         Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
     )
 
-# %%
 from gks_tutorial.environment import diagnostics
 from gks_tutorial.manifests import load_manifest, verify_manifest
 
