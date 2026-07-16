@@ -1,0 +1,24 @@
+name: test
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+      - run: uv sync --locked --extra tutorial --extra dev
+      - name: lint
+        run: uv run make lint
+      - name: unit-tests
+        run: uv run make test
+      - name: gks-validation
+        run: uv run make verify-data
+      - name: notebooks
+        run: uv run make notebooks
+      - name: package-build
+        run: uv run make build

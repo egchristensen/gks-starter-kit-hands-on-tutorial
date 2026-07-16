@@ -1,0 +1,2 @@
+# Generated for the current pinned tutorial environment; refreshed in Phase 5.
+-e .[tutorial]

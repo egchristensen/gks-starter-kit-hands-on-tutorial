@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling==1.29.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gks-hands-on-tutorial"
+version = "0.1.0"
+description = "Executable, fixture-backed tutorials for GA4GH Genomic Knowledge Standards"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11,<3.15"
+authors = [{ name = "GA4GH GKS contributors" }]
+dependencies = [
+  "jsonschema==4.26.0",
+  "pydantic==2.13.4",
+  "PyYAML==6.0.3",
+  "rich==15.0.0",
+]
+
+[project.optional-dependencies]
+tutorial = [
+  "ga4gh.vrs==2.3.3",
+  "ga4gh.cat_vrs==0.7.2",
+  "ga4gh.va_spec==0.4.4",
+  "jupyterlab==4.6.1",
+  "jupytext==1.19.4",
+  "pandas==3.0.3",
+]
+dev = [
+  "build==1.5.0",
+  "nbmake==1.5.5",
+  "pre-commit==4.6.0",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "ruff==0.15.22",
+]
+
+[project.scripts]
+gks-tutorial-verify-data = "gks_tutorial.manifests:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gks_tutorial"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers -ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.jupytext]
+formats = "ipynb,py:percent"
+notebook_metadata_filter = "jupytext,kernelspec"
+cell_metadata_filter = "-all"
