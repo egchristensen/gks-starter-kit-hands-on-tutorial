@@ -87,6 +87,10 @@ if IN_COLAB:
         check=True,
     )
     os.chdir(repository_root)
+    # Editable installs add a .pth file that is normally read at interpreter
+    # startup. Colab's current kernel is already running, so make the package
+    # importable immediately without requiring a runtime restart.
+    sys.path.insert(0, str(repository_root / "src"))
 else:
     repository_root = (
         Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
