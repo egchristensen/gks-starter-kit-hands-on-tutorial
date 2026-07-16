@@ -1,0 +1,90 @@
+# ClinVar fixture-selection research
+
+**Status:** blocked pending an exact, release-matched native/GKS export
+
+**Research date:** 2026-07-16
+
+This task records the evidence required before committing a Phase 2 biological
+fixture. It intentionally does not treat a plausible record as a verified pairing.
+
+## Candidate
+
+`VCV000012582.67` (ClinVar Variation ID `12582`) is an educationally useful
+candidate:
+
+- KRAS `NM_004985.5:c.35G>A` (`p.Gly12Asp`);
+- a simple GRCh38 SNV with canonical SPDI `NC_000012.12:25245349:C:T`;
+- ClinVar-GKS categorical variant `clinvar:12582`;
+- defining VRS allele `ga4gh:VA.LDaqvF3c3y1IG8wF4mORiRfB--9Jjfzp`;
+- germline pathogenicity, somatic clinical-impact, and oncogenicity statements;
+- multiple SCV records, including `SCV000191996.5`; and
+- a direct statement → proposition → categorical variant → VRS allele traversal.
+
+These identifiers were observed in the public sources below; they are recorded as
+research evidence, not yet copied into `data/` as tutorial fixtures.
+
+## Sources inspected
+
+### NCBI ClinVar
+
+- Version-specific E-utilities URL:
+  <https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=clinvar&rettype=vcv&id=VCV000012582.67>
+- Retrieved response size: 342,146 bytes.
+- The response reported `VariationID="12582"`, `Version="67"`, and
+  `DateLastUpdated="2026-07-15"`.
+- ClinVar documents that monthly comprehensive releases are archived, while weekly
+  releases are not. It also documents that some staff updates do not increment a VCV
+  version. Therefore, a version-specific E-utilities response is not sufficient by
+  itself to prove identity with a particular monthly transformation input.
+- Download and release documentation:
+  <https://www.ncbi.nlm.nih.gov/clinvar/docs/downloads/> and
+  <https://www.ncbi.nlm.nih.gov/clinvar/docs/maintenance_use/>.
+
+### ClinVar-GKS
+
+- Repository: <https://github.com/clingen-data-model/clinvar-gks>
+- Inspected commit: `b3f485375172f789e26b8626854ef1ac4db2e130`.
+- Release index updated `2026-07-07T23:04:00Z`:
+  <https://pub-9c5470edadb8496fb0abbf396291660b.r2.dev/index.json>.
+- Monthly `2026-06` JSON bundle size: 4,469,818,847 bytes.
+- Bundle ETag: `bd6e0d969c6885a07ce645ea1dccde8f-533`.
+- Selective queries against the public Parquet exports confirmed the candidate IDs,
+  but those tables flatten polymorphic JSON values and are not byte-equivalent to
+  the release JSON bundle.
+
+The repository's checked-in examples are unsuitable as fixtures because some
+contain JSON comments, placeholder conditions such as `"some condition"`, and
+incomplete `TBD` structures.
+
+## Required resolution
+
+Obtain one of the following from the ClinVar-GKS maintainers or a documented
+release-extraction process:
+
+1. a small authoritative export for a named ClinVar release containing the native
+   VCV record and every linked GKS object; or
+2. a documented, range-efficient extraction procedure that reproduces exact JSON
+   objects from an archived release without downloading the multi-gigabyte bundle.
+
+The export must identify:
+
+- the ClinVar release date and native archive path;
+- the ClinVar-GKS transformer commit and release artifact;
+- exact VCV and SCV accession versions;
+- the VRS, Cat-VRS, and VA-Spec versions/profile schemas used;
+- every linked object required for traversal; and
+- SHA-256 checksums for both native and transformed files.
+
+## Fixture acceptance checklist
+
+- [ ] Native XML comes from the same pinned ClinVar release used by the transformer.
+- [ ] GKS JSON is copied from an authoritative output, not reconstructed from a
+      flattened analytical table.
+- [ ] Every source identifier is present in both the native/GKS pairing metadata.
+- [ ] Normative VRS, Cat-VRS, and VA-Spec objects validate with pinned packages.
+- [ ] ClinVar-specific profile extensions are labeled and validated separately.
+- [ ] Statement traversal resolves without network access.
+- [ ] Native bytes remain unchanged under `data/native/clinvar/`.
+- [ ] GKS bytes are stored separately under `data/gks/clinvar/`.
+- [ ] The manifest records URLs, releases, retrieval time, licenses, transformer
+      commit, model versions, and checksums.
