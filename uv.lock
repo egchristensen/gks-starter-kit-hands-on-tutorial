@@ -618,6 +618,12 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+colab = [
+    { name = "ga4gh-cat-vrs" },
+    { name = "ga4gh-va-spec" },
+    { name = "ga4gh-vrs" },
+    { name = "pandas" },
+]
 dev = [
     { name = "build" },
     { name = "nbmake" },
@@ -638,13 +644,17 @@ tutorial = [
 [package.metadata]
 requires-dist = [
     { name = "build", marker = "extra == 'dev'", specifier = "==1.5.0" },
+    { name = "ga4gh-cat-vrs", marker = "extra == 'colab'", specifier = "==0.7.2" },
     { name = "ga4gh-cat-vrs", marker = "extra == 'tutorial'", specifier = "==0.7.2" },
+    { name = "ga4gh-va-spec", marker = "extra == 'colab'", specifier = "==0.4.4" },
     { name = "ga4gh-va-spec", marker = "extra == 'tutorial'", specifier = "==0.4.4" },
+    { name = "ga4gh-vrs", marker = "extra == 'colab'", specifier = "==2.3.3" },
     { name = "ga4gh-vrs", marker = "extra == 'tutorial'", specifier = "==2.3.3" },
     { name = "jsonschema", specifier = "==4.26.0" },
     { name = "jupyterlab", marker = "extra == 'tutorial'", specifier = "==4.6.1" },
     { name = "jupytext", marker = "extra == 'tutorial'", specifier = "==1.19.4" },
     { name = "nbmake", marker = "extra == 'dev'", specifier = "==1.5.5" },
+    { name = "pandas", marker = "extra == 'colab'", specifier = "==3.0.3" },
     { name = "pandas", marker = "extra == 'tutorial'", specifier = "==3.0.3" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = "==4.6.0" },
     { name = "pydantic", specifier = "==2.13.4" },
@@ -654,7 +664,7 @@ requires-dist = [
     { name = "rich", specifier = "==15.0.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = "==0.15.22" },
 ]
-provides-extras = ["tutorial", "dev"]
+provides-extras = ["tutorial", "colab", "dev"]
 
 [[package]]
 name = "h11"

@@ -18,6 +18,8 @@
 # %% [markdown]
 # # Start here
 #
+# [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/00_start_here.ipynb)
+#
 # ## Why this matters
 #
 # This smoke notebook confirms that the lightweight tutorial environment and data
@@ -30,8 +32,67 @@
 # - verify all declared fixture checksums.
 
 # %%
+import os
+import subprocess
+import sys
 from pathlib import Path
 
+try:
+    import google.colab  # type: ignore[import-not-found]  # noqa: F401
+except ImportError:
+    IN_COLAB = False
+else:
+    IN_COLAB = True
+
+if IN_COLAB:
+    repository_root = Path("/content/gks-starter-kit-hands-on-tutorial")
+    if not (repository_root / ".git").exists():
+        subprocess.run(
+            [
+                "git",
+                "clone",
+                "--depth",
+                "1",
+                "--branch",
+                "main",
+                "https://github.com/egchristensen/"
+                "gks-starter-kit-hands-on-tutorial.git",
+                str(repository_root),
+            ],
+            check=True,
+        )
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--quiet",
+            "--requirement",
+            str(repository_root / "requirements-colab.txt"),
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--quiet",
+            "--no-deps",
+            "--editable",
+            str(repository_root),
+        ],
+        check=True,
+    )
+    os.chdir(repository_root)
+else:
+    repository_root = (
+        Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
+    )
+
+# %%
 from gks_tutorial.environment import diagnostics
 from gks_tutorial.manifests import load_manifest, verify_manifest
 
@@ -42,7 +103,6 @@ from gks_tutorial.manifests import load_manifest, verify_manifest
 # scientific fixture.
 
 # %%
-repository_root = Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
 manifest_path = repository_root / "data" / "manifest.yaml"
 installed = diagnostics()
 manifest = load_manifest(manifest_path)

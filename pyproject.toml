@@ -26,6 +26,12 @@ tutorial = [
   "jupytext==1.19.4",
   "pandas==3.0.3",
 ]
+colab = [
+  "ga4gh.vrs==2.3.3",
+  "ga4gh.cat_vrs==0.7.2",
+  "ga4gh.va_spec==0.4.4",
+  "pandas==3.0.3",
+]
 dev = [
   "build==1.5.0",
   "nbmake==1.5.5",

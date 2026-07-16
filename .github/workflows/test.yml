@@ -20,5 +20,7 @@ jobs:
         run: uv run make verify-data
       - name: notebooks
         run: uv run make notebooks
+      - name: colab-requirements
+        run: uv run make colab-requirements
       - name: package-build
         run: uv run make build

@@ -1,4 +1,4 @@
-.PHONY: setup verify-data test notebooks lab clean lint build
+.PHONY: setup verify-data test notebooks lab clean lint build colab-requirements
 
 setup:
 	python -m pip install --upgrade pip
@@ -22,6 +22,9 @@ lab:
 
 build:
 	python -m build
+
+colab-requirements:
+	python scripts/generate_colab_requirements.py --check
 
 clean:
 	rm -rf build dist .pytest_cache .ruff_cache src/*.egg-info

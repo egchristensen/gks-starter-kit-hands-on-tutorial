@@ -4,6 +4,26 @@ This repository is the executable companion prototype for learning GA4GH VRS,
 Cat-VRS, and VA-Spec through small, provenance-tracked examples. Phase 1 contains
 the repository and validation scaffold only; real ClinVar content belongs to Phase 2.
 
+## Run in Google Colab
+
+[![Open Start Here in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/00_start_here.ipynb)
+
+This is the primary zero-local-setup path. Click the badge, select **Runtime → Run
+all**, and accept Colab's standard warning for a notebook loaded from GitHub. The
+first cell automatically:
+
+1. clones this public repository into the temporary Colab runtime;
+2. installs the fully pinned packages in `requirements-colab.txt`; and
+3. installs the tutorial package from that checkout.
+
+Nothing is installed on the learner's computer. Colab does download packages into
+its disposable cloud runtime, so the first run requires internet access and can take
+a few minutes. Runtime files and notebook changes disappear when Colab recycles the
+session; download any wanted output before disconnecting.
+
+During prototype development the badge follows `main`. Published tutorial releases
+will use a release tag so that notebooks, fixtures, and dependencies cannot drift.
+
 ## Local setup
 
 Python 3.11 is the tested baseline. With `uv`:
@@ -27,6 +47,7 @@ make lab
 ```
 
 The core tutorial is designed to run offline after dependencies are installed.
+Local setup is intended primarily for contributors and maintainers.
 
 ## Docker
 
