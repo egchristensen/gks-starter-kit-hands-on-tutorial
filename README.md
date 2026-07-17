@@ -1,12 +1,16 @@
 # GKS Hands-On Tutorial
 
 This repository is the executable companion prototype for learning GA4GH VRS,
-Cat-VRS, and VA-Spec through small, provenance-tracked examples. Phase 1 contains
-the repository and validation scaffold only; real ClinVar content belongs to Phase 2.
+Cat-VRS, and VA-Spec through small, provenance-tracked examples. Phase 1 and its
+Colab smoke test are complete. Phase 2 currently includes a compact native
+ClinVar API snapshot and candidate linked VRS objects; exact release-matched
+Cat-VRS and VA-Spec records remain a documented upstream-data prerequisite.
 
 ## Run in Google Colab
 
 [![Open Start Here in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/00_start_here.ipynb)
+
+[![Open ClinVar and GKS in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/01_clinvar_native_and_gks.ipynb)
 
 This is the primary zero-local-setup path. Click the badge, select **Runtime → Run
 all**, and accept Colab's standard warning for a notebook loaded from GitHub. The
@@ -61,5 +65,6 @@ committed small fixtures—no SeqRepo, UTA, PostgreSQL, or reference archive.
 ## Project status
 
 The implementation follows `gks-hands-on-tutorial-implementation-plan.md` phase by
-phase. The current scaffold intentionally includes no biological records. See
-`docs/data-provenance.md` before adding data.
+phase. Phase 2 is active and is not yet acceptance-complete. See
+`docs/data-provenance.md` and `docs/clinvar-fixture-selection.md` for the exact
+status and limitations of the bundled records.

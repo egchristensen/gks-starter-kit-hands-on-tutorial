@@ -5,6 +5,6 @@ import subprocess
 import sys
 
 subprocess.run(
-    [sys.executable, "-m", "pytest", "--nbmake", "notebooks/00_start_here.ipynb"],
+    [sys.executable, "-m", "pytest", "--nbmake", "notebooks"],
     check=True,
 )

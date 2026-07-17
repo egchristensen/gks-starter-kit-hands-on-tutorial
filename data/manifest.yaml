@@ -15,3 +15,30 @@ datasets:
     files:
       - path: data/native/clinvar/VCV000012582.67-esummary.json
         sha256: dc41ba10fe502f0ea8eebe4797332565ce7fa04616c3dfd7ca6f11d52fb571cd
+  clinvar_gks_candidate_vrs_12582:
+    source: ClinVar-GKS public Parquet key/value sections
+    source_record_uid: "12582"
+    retrieval_date: "2026-07-16"
+    source_last_modified: "2026-07-07T23:03:27Z"
+    source_base_url: https://pub-9c5470edadb8496fb0abbf396291660b.r2.dev/datasets/parquet
+    source_sections:
+      sequenceReference:
+        etag: 6b796e7c2ab4987087a0332e4229a71e
+      location:
+        etag: 269488c57385e3aab9787f89e81926a2-50
+      allele:
+        etag: 72e8e41ec17bc906a59c4ebd3e9aad6b-86
+    release_policy: Unversioned latest Parquet; candidate linkage only
+    license: CC0-1.0
+    transformer:
+      name: ClinVar-GKS
+      repository: https://github.com/clingen-data-model/clinvar-gks
+      inspected_commit: b3f485375172f789e26b8626854ef1ac4db2e130
+    gks_versions:
+      vrs_validator: 2.3.3
+    selection_method: >-
+      Exact JSON values selected by known VRS identifiers from key/value Parquet
+      rows; no flattened fields were reconstructed.
+    files:
+      - path: data/gks/clinvar/VCV000012582.67-vrs.jsonl
+        sha256: 5b314164b2de89c3c8ded3ed1d69bfc854d7af3de6d0abf1f8e9326cce9ef8d4

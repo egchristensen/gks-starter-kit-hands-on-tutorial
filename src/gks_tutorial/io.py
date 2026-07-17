@@ -29,6 +29,11 @@ def iter_jsonl(path: Path) -> Iterator[Any]:
                 ) from error
 
 
+def load_jsonl(path: Path) -> list[Any]:
+    """Load all records from a small tutorial JSONL file."""
+    return list(iter_jsonl(path))
+
+
 def load_xml(path: Path) -> ElementTree.Element:
     """Parse an XML document and return its root element."""
     return ElementTree.parse(path).getroot()

@@ -23,7 +23,7 @@
 # ## Why this matters
 #
 # This smoke notebook confirms that the lightweight tutorial environment and data
-# integrity foundation work before real examples are introduced in Phase 2.
+# integrity foundation work before opening the real Phase 2 example.
 #
 # ## Learning objectives
 #
@@ -115,8 +115,8 @@ from gks_tutorial.manifests import load_manifest, verify_manifest
 # %% [markdown]
 # ## Input data and provenance
 #
-# Phase 1 has no biological records. An empty manifest is intentional, not a
-# scientific fixture.
+# The manifest now includes Phase 2 fixtures. This notebook verifies them without
+# making scientific claims; notebook 01 explains their provenance and limitations.
 
 # %%
 manifest_path = repository_root / "data" / "manifest.yaml"
@@ -137,8 +137,8 @@ assert not issues
 # - **Cat-VRS** groups variations into useful categorical concepts.
 # - **VA-Spec** represents statements and evidence about variation.
 #
-# A real entity spanning these layers will be added only with the verified ClinVar
-# fixture in Phase 2.
+# Notebook 01 begins with native ClinVar and VRS. Cat-VRS and VA-Spec traversal
+# will be added only when an exact release-matched export is available.
 #
 # ## Validation and practical operation
 #
@@ -154,4 +154,5 @@ assert not issues
 #
 # ## Limitations and next steps
 #
-# This is a repository smoke test. It intentionally makes no biological claims.
+# This remains an environment smoke test. Continue to notebook 01 for the
+# biological example and its explicit limitations.

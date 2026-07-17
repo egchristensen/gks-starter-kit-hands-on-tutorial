@@ -11,3 +11,9 @@ explicitly records that it comes from the live weekly API rather than a pinned
 monthly archive. It is not described as paired with ClinVar-GKS until the exact
 transformation input and output can be verified; see
 `docs/clinvar-fixture-selection.md`.
+
+The candidate VRS collection preserves the JSON value strings exposed by three
+ClinVar-GKS key/value Parquet sections. Its manifest records the section ETags
+and makes the unversioned-release limitation explicit. It must not be described
+as an exact transformation pair until upstream release metadata supports that
+claim.

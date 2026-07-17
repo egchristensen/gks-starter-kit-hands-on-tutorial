@@ -48,9 +48,11 @@ research evidence, not yet copied into `data/` as tutorial fixtures.
   <https://pub-9c5470edadb8496fb0abbf396291660b.r2.dev/index.json>.
 - Monthly `2026-06` JSON bundle size: 4,469,818,847 bytes.
 - Bundle ETag: `bd6e0d969c6885a07ce645ea1dccde8f-533`.
-- Selective queries against the public Parquet exports confirmed the candidate IDs,
-  but those tables flatten polymorphic JSON values and are not byte-equivalent to
-  the release JSON bundle.
+- Selective queries against the public Parquet exports confirmed the candidate IDs.
+  The `sequenceReference`, `location`, and `allele` sections currently expose
+  authoritative JSON object strings in key/value rows. The Cat-VRS and VA-Spec
+  sections remain flattened, despite newer upstream documentation describing a
+  common `data` column, and cannot provide exact objects.
 
 The repository's checked-in examples are unsuitable as fixtures because some
 contain JSON comments, placeholder conditions such as `"some condition"`, and
@@ -95,6 +97,8 @@ The export must identify:
       its bytes and can be inspected offline.
 - [x] The live-API limitation, retrieval date, source URL, and checksum are
       recorded explicitly.
+- [x] Exact candidate VRS object values are selectively extracted, stored under
+      `data/gks/`, and validated without adding DuckDB to runtime dependencies.
 - [ ] Native XML comes from the same pinned ClinVar release used by the transformer.
 - [ ] GKS JSON is copied from an authoritative output, not reconstructed from a
       flattened analytical table.
