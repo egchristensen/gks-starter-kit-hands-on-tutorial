@@ -34,6 +34,15 @@ def load_jsonl(path: Path) -> list[Any]:
     return list(iter_jsonl(path))
 
 
+def write_jsonl(path: Path, values: list[Any]) -> None:
+    """Write deterministic, compact JSONL for a small tutorial collection."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as stream:
+        for value in values:
+            stream.write(json.dumps(value, sort_keys=True, separators=(",", ":")))
+            stream.write("\n")
+
+
 def load_xml(path: Path) -> ElementTree.Element:
     """Parse an XML document and return its root element."""
     return ElementTree.parse(path).getroot()

@@ -2,7 +2,8 @@ from pathlib import Path
 
 from gks_tutorial.bundles import index_objects, resolve_reference
 from gks_tutorial.gks_models import validate_gks_object
-from gks_tutorial.io import load_jsonl
+from gks_tutorial.io import load_jsonl, write_jsonl
+from gks_tutorial.manifests import sha256
 
 FIXTURE = Path("data/gks/clinvar/VCV000012582.67-vrs.jsonl")
 
@@ -24,3 +25,11 @@ def test_bundled_allele_resolves_to_location_and_sequence() -> None:
     assert location["start"] == "25245349"
     assert location["end"] == "25245350"
     assert sequence["name"] == "NC_000012.12"
+
+
+def test_candidate_vrs_export_is_byte_deterministic(tmp_path: Path) -> None:
+    output = tmp_path / "export.jsonl"
+
+    write_jsonl(output, load_jsonl(FIXTURE))
+
+    assert sha256(output) == sha256(FIXTURE)

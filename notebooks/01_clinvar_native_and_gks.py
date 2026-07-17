@@ -103,8 +103,8 @@ else:
 from gks_tutorial.bundles import index_objects, resolve_reference
 from gks_tutorial.clinvar import classification_summary, esummary_record
 from gks_tutorial.gks_models import validate_gks_object
-from gks_tutorial.io import load_json, load_jsonl
-from gks_tutorial.manifests import load_manifest, verify_manifest
+from gks_tutorial.io import load_json, load_jsonl, write_jsonl
+from gks_tutorial.manifests import load_manifest, sha256, verify_manifest
 
 # %% [markdown]
 # ## Input data and provenance
@@ -171,6 +171,52 @@ traversal = {
 print(traversal)
 
 # %% [markdown]
+# ## Practical query
+#
+# VRS expressions let consumers select the notation they understand without
+# changing the allele's identity. Here we retrieve the SPDI expression and show
+# that the ClinVar classifications remain in the native knowledge record rather
+# than being copied into VRS.
+
+# %%
+expression_by_syntax = {
+    expression["syntax"]: expression["value"] for expression in allele["expressions"]
+}
+query_result = {
+    "spdi": expression_by_syntax["spdi"],
+    "vrs_identifier": allele["id"],
+    "native_classifications": classification_summary(native),
+    "classifications_stored_on_vrs_allele": "classification" in allele,
+}
+print(query_result)
+
+# %% [markdown]
+# ## Deterministic offline export
+#
+# The next cell exports the three linked VRS objects as compact JSONL, reloads
+# them, validates each object, and compares its checksum with the committed
+# source. This is an object-preserving export, not the final multi-product
+# tutorial bundle.
+
+# %%
+output_path = repository_root / "outputs/clinvar-12582-vrs.jsonl"
+write_jsonl(output_path, gks_objects)
+exported_objects = load_jsonl(output_path)
+for exported_object in exported_objects:
+    validate_gks_object(exported_object, product="vrs")
+
+source_path = repository_root / "data/gks/clinvar/VCV000012582.67-vrs.jsonl"
+export_summary = {
+    "path": output_path.relative_to(repository_root).as_posix(),
+    "objects": len(exported_objects),
+    "sha256": sha256(output_path),
+    "matches_committed_bytes": sha256(output_path) == sha256(source_path),
+}
+print(export_summary)
+assert exported_objects == gks_objects
+assert export_summary["matches_committed_bytes"]
+
+# %% [markdown]
 # ## Field mapping
 #
 # | Native evidence | VRS representation | Meaning |
@@ -186,6 +232,8 @@ print(traversal)
 # 2. How many residues does the location span? **One** (`end - start`).
 # 3. Does successful VRS validation prove release pairing? **No**. Validation
 #    proves schema conformance, while pairing requires transformation provenance.
+# 4. Does the exported JSONL include classifications? **No**. It preserves the
+#    VRS layer; classifications belong in VA-Spec statements.
 #
 # ## Expected takeaways
 #
@@ -200,4 +248,5 @@ print(traversal)
 # files are unversioned. Until exact objects and release pairing are available,
 # this notebook does **not** claim native → GKS transformation equivalence and
 # does not fabricate statement traversal. The completed milestone will add
-# statement → categorical variant → VRS traversal and a compact export bundle.
+# statement → categorical variant → VRS traversal and the final multi-product
+# compact bundle.
