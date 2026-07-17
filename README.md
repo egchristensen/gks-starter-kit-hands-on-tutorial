@@ -68,3 +68,6 @@ The implementation follows `gks-hands-on-tutorial-implementation-plan.md` phase 
 phase. Phase 2 is active and is not yet acceptance-complete. See
 `docs/data-provenance.md` and `docs/clinvar-fixture-selection.md` for the exact
 status and limitations of the bundled records.
+
+For the current implementation checkpoint, validation baseline, blocker, and
+recommended continuation sequence, see [`docs/project-handoff.md`](docs/project-handoff.md).
