@@ -1,2 +1,17 @@
 manifest_version: 1
-datasets: {}
+datasets:
+  clinvar_native_esummary_12582:
+    source: NCBI ClinVar E-utilities ESummary
+    source_record_uid: "12582"
+    source_accession: VCV000012582.67
+    retrieval_date: "2026-07-16"
+    retrieval_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=clinvar&id=12582&retmode=json&tool=gks_hands_on_tutorial
+    release_policy: Live weekly ClinVar data; not a pinned monthly archive
+    terms: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    selection_method: >-
+      One compact public ESummary response selected for a simple KRAS SNV that
+      is also present in ClinVar-GKS research results.
+    intended_use: Native-source inspection only until an exact GKS pairing is verified
+    files:
+      - path: data/native/clinvar/VCV000012582.67-esummary.json
+        sha256: dc41ba10fe502f0ea8eebe4797332565ce7fa04616c3dfd7ca6f11d52fb571cd

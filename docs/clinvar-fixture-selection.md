@@ -56,6 +56,20 @@ The repository's checked-in examples are unsuitable as fixtures because some
 contain JSON comments, placeholder conditions such as `"some condition"`, and
 incomplete `TBD` structures.
 
+## Prototype API snapshot
+
+To make progress without downloading a complete release, the repository now
+bundles the exact JSON response returned by the public NCBI ClinVar ESummary
+API for UID `12582` on 2026-07-16. The response identifies itself as
+`VCV000012582.67`. This is an authoritative, compact native-source snapshot,
+but it is **not** a release-pinned monthly archive.
+
+The snapshot does not resolve the blocker below: a ClinVar-GKS analytical
+export updated on a nearby date is not automatically proven to have been
+derived from this exact NCBI response. Until an exact pairing is verified, the
+native snapshot may be inspected independently but must not be presented as a
+byte-for-byte matched ClinVar-GKS transformation.
+
 ## Required resolution
 
 Obtain one of the following from the ClinVar-GKS maintainers or a documented
@@ -77,6 +91,10 @@ The export must identify:
 
 ## Fixture acceptance checklist
 
+- [x] A compact, authoritative native API snapshot is bundled without modifying
+      its bytes and can be inspected offline.
+- [x] The live-API limitation, retrieval date, source URL, and checksum are
+      recorded explicitly.
 - [ ] Native XML comes from the same pinned ClinVar release used by the transformer.
 - [ ] GKS JSON is copied from an authoritative output, not reconstructed from a
       flattened analytical table.

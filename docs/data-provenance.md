@@ -6,5 +6,8 @@ and source identifiers, file paths and SHA-256 checksums. Transformed GKS output
 also record transformer repository/commit and pinned VRS, Cat-VRS, and VA-Spec
 versions. Native bytes are never edited during transformation.
 
-Phase 1's empty manifest is intentional. ClinVar record selection is a Phase 2
-research task and must use exact upstream public data rather than invented content.
+The first Phase 2 native fixture is an exact NCBI ESummary response. Its manifest
+explicitly records that it comes from the live weekly API rather than a pinned
+monthly archive. It is not described as paired with ClinVar-GKS until the exact
+transformation input and output can be verified; see
+`docs/clinvar-fixture-selection.md`.

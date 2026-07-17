@@ -5,9 +5,11 @@ import yaml
 from gks_tutorial.manifests import load_manifest, sha256, verify_manifest
 
 
-def test_empty_repository_manifest_is_valid() -> None:
+def test_repository_manifest_is_valid() -> None:
     path = Path("data/manifest.yaml")
-    assert load_manifest(path) == {"manifest_version": 1, "datasets": {}}
+    manifest = load_manifest(path)
+    assert manifest["manifest_version"] == 1
+    assert "clinvar_native_esummary_12582" in manifest["datasets"]
     assert verify_manifest(path, repository_root=Path.cwd()) == []
 
 
