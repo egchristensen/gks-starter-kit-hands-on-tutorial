@@ -34,6 +34,7 @@
 # - distinguish a candidate identifier link from a release-matched pairing.
 
 # %%
+import importlib
 import os
 import subprocess
 import sys
@@ -95,6 +96,10 @@ if IN_COLAB:
     )
     os.chdir(repository_root)
     sys.path.insert(0, str(repository_root / "src"))
+    importlib.invalidate_caches()
+    for module_name in tuple(sys.modules):
+        if module_name == "gks_tutorial" or module_name.startswith("gks_tutorial."):
+            del sys.modules[module_name]
 else:
     repository_root = (
         Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
