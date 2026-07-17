@@ -42,3 +42,38 @@ datasets:
     files:
       - path: data/gks/clinvar/VCV000012582.67-vrs.jsonl
         sha256: 5b314164b2de89c3c8ded3ed1d69bfc854d7af3de6d0abf1f8e9326cce9ef8d4
+  clinvar_native_esummary_44991:
+    source: NCBI ClinVar E-utilities ESummary
+    source_record_uid: "44991"
+    source_accession: VCV000044991.8
+    linked_submission: SCV005093950.2
+    retrieval_date: "2026-07-17"
+    retrieval_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=clinvar&id=44991&retmode=json&tool=gks_hands_on_tutorial
+    release_policy: Live weekly ClinVar data; identifier-paired, not release-paired
+    terms: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    files:
+      - path: data/native/clinvar/VCV000044991.8-esummary.json
+        sha256: ca28940b7deb966e77ccfc6b90117d6be1ec9e084461ac7d464673d6ab8b6d49
+  clinvar_gks_profile_scv005093950_2:
+    source: Versioned ClinVar-GKS repository example
+    source_accession: SCV005093950.2
+    source_variation_id: "44991"
+    retrieval_date: "2026-07-17"
+    source_url: https://raw.githubusercontent.com/clingen-data-model/clinvar-gks/b3f485375172f789e26b8626854ef1ac4db2e130/examples/scv/SCV005093950.2-S-ONCO.json
+    license: CC0-1.0
+    representation_status: >-
+      Exact ClinVar implementation-profile example containing normative inline
+      Cat-VRS and VRS objects; outer statement is not normative VA-Spec 1.0.1.
+    transformer:
+      name: ClinVar-GKS
+      repository: https://github.com/clingen-data-model/clinvar-gks
+      commit: b3f485375172f789e26b8626854ef1ac4db2e130
+    gks_versions:
+      vrs_validator: 2.3.3
+      cat_vrs_validator: 0.7.2
+      va_spec_validator: 0.4.4
+    files:
+      - path: data/gks/clinvar/SCV005093950.2-S-ONCO.profile.json
+        sha256: bc87c9e3c07fc7b627792f54e34bd64d437cdaa14444369ecbb34dea8d435732
+      - path: data/expected/clinvar-profile-bundle.json
+        sha256: 10b8ca8051b00e998e79c45a15dcefd60aa61e829060150de9c2ccc60bd56a3a

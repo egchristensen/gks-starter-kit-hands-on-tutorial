@@ -30,3 +30,21 @@ def classification_summary(record: Mapping[str, Any]) -> dict[str, str]:
         if isinstance(value, Mapping) and isinstance(value.get("description"), str):
             summary[label] = value["description"]
     return summary
+
+
+def inline_variation_path(
+    statement: Mapping[str, Any],
+) -> tuple[Mapping[str, Any], Mapping[str, Any]]:
+    """Return inline Cat-VRS and VRS objects from a ClinVar profile statement."""
+    try:
+        categorical_variant = statement["proposition"]["subjectVariant"]
+        allele = next(
+            member
+            for member in categorical_variant["members"]
+            if member.get("type") == "Allele"
+        )
+    except (KeyError, StopIteration, TypeError) as error:
+        raise ValueError(
+            "statement has no inline categorical variant and allele"
+        ) from error
+    return categorical_variant, allele

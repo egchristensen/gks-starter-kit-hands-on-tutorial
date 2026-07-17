@@ -50,3 +50,28 @@ def resolve_reference(
         return sections[section][key]
     except (ValueError, KeyError) as error:
         raise KeyError(f"unresolved local reference: {reference!r}") from error
+
+
+def build_clinvar_profile_bundle(
+    native_record: Mapping[str, Any], statement: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Build the deterministic Phase 2 bundle around an exact profile record."""
+    supporting = native_record.get("supporting_submissions", {}).get("scv", [])
+    statement_id = object_identifier(statement).removeprefix("clinvar.submission:")
+    accession = statement_id.split(".", 1)[0]
+    if accession not in supporting:
+        raise ValueError(f"native record does not list supporting {accession}")
+    return {
+        "bundleType": "gks-tutorial-clinvar-profile",
+        "bundleVersion": 1,
+        "nativeIdentifiers": {
+            "clinvarVariationId": native_record["uid"],
+            "vcvAccession": native_record["accession_version"],
+            "scvAccession": statement_id,
+        },
+        "profileStatus": (
+            "ClinVar-GKS implementation profile with normative inline "
+            "Cat-VRS and VRS objects"
+        ),
+        "statement": statement,
+    }

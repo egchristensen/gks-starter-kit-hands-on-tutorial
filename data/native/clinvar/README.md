@@ -4,6 +4,11 @@
 ClinVar ESummary for UID `12582`, retrieved on 2026-07-16. It is source data,
 not a GKS representation.
 
+`VCV000044991.8-esummary.json` is the corresponding unmodified response for UID
+`44991`, retrieved on 2026-07-17. Its supporting-submission list includes
+`SCV005093950`, which is the versioned implementation-profile example used for
+the cross-product traversal exercise.
+
 Maintainers can refresh it with:
 
 ```bash

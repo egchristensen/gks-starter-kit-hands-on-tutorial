@@ -9,6 +9,7 @@ from gks_tutorial.clinvar import (
 from gks_tutorial.io import load_json
 
 FIXTURE = Path("data/native/clinvar/VCV000012582.67-esummary.json")
+PROFILE_NATIVE_FIXTURE = Path("data/native/clinvar/VCV000044991.8-esummary.json")
 
 
 def test_bundled_clinvar_snapshot_identity_and_classifications() -> None:
@@ -26,3 +27,10 @@ def test_bundled_clinvar_snapshot_identity_and_classifications() -> None:
 def test_esummary_record_rejects_missing_uid() -> None:
     with pytest.raises(KeyError, match="999"):
         esummary_record({"result": {}}, "999")
+
+
+def test_profile_native_snapshot_lists_the_exact_scv_accession() -> None:
+    record = esummary_record(load_json(PROFILE_NATIVE_FIXTURE), "44991")
+
+    assert record["accession_version"] == "VCV000044991.8"
+    assert "SCV005093950" in record["supporting_submissions"]["scv"]

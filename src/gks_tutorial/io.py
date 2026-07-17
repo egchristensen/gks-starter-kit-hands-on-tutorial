@@ -15,6 +15,14 @@ def load_json(path: Path) -> Any:
         return json.load(stream)
 
 
+def write_json(path: Path, value: Any) -> None:
+    """Write deterministic JSON with a trailing newline."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+
 def iter_jsonl(path: Path) -> Iterator[Any]:
     """Yield non-empty UTF-8 JSONL records with line-aware errors."""
     with path.open(encoding="utf-8") as stream:

@@ -105,10 +105,18 @@ else:
         Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
     )
 
-from gks_tutorial.bundles import index_objects, resolve_reference
-from gks_tutorial.clinvar import classification_summary, esummary_record
+from gks_tutorial.bundles import (
+    build_clinvar_profile_bundle,
+    index_objects,
+    resolve_reference,
+)
+from gks_tutorial.clinvar import (
+    classification_summary,
+    esummary_record,
+    inline_variation_path,
+)
 from gks_tutorial.gks_models import validate_gks_object
-from gks_tutorial.io import load_json, load_jsonl, write_jsonl
+from gks_tutorial.io import load_json, load_jsonl, write_json, write_jsonl
 from gks_tutorial.manifests import load_manifest, sha256, verify_manifest
 
 # %% [markdown]
@@ -222,6 +230,85 @@ assert exported_objects == gks_objects
 assert export_summary["matches_committed_bytes"]
 
 # %% [markdown]
+# ## Statement → Cat-VRS → VRS traversal
+#
+# A second real record supplies the missing cross-product traversal. NCBI lists
+# `SCV005093950` as a supporting submission for Variation ID `44991`. A pinned
+# ClinVar-GKS repository commit contains the exact versioned
+# `SCV005093950.2` profile statement with its categorical variant and VRS Allele
+# inline.
+
+# %%
+profile_native_document = load_json(
+    repository_root / "data/native/clinvar/VCV000044991.8-esummary.json"
+)
+profile_native = esummary_record(profile_native_document, "44991")
+profile_statement = load_json(
+    repository_root / "data/gks/clinvar/SCV005093950.2-S-ONCO.profile.json"
+)
+
+assert "SCV005093950" in profile_native["supporting_submissions"]["scv"]
+categorical_variant, inline_allele = inline_variation_path(profile_statement)
+validated_cat_vrs = validate_gks_object(categorical_variant, product="cat-vrs")
+validated_inline_vrs = validate_gks_object(inline_allele, product="vrs")
+
+profile_traversal = {
+    "statement": profile_statement["id"],
+    "proposition": profile_statement["proposition"]["type"],
+    "cat_vrs": validated_cat_vrs.id,
+    "vrs": validated_inline_vrs.id,
+    "classification": profile_statement["classification"]["name"],
+}
+print(profile_traversal)
+
+# %% [markdown]
+# ## Normative object or implementation profile?
+#
+# The inline Cat-VRS and VRS objects are normative and validate above. The outer
+# statement is an exact ClinVar-GKS implementation-profile example. It is not a
+# normative VA-Spec object under the currently pinned package: the profile uses
+# `objectCondition` for this oncogenicity proposition, while normative VA-Spec
+# requires `objectTumorType`. We test the expected incompatibility explicitly.
+
+# %%
+try:
+    validate_gks_object(profile_statement, product="va-spec")
+except ValueError as profile_error:
+    profile_validation = {
+        "normative_va_spec": False,
+        "reason_mentions_required_field": "objectTumorType" in str(profile_error),
+    }
+else:  # pragma: no cover - guards against accidentally changing the claim
+    raise AssertionError("ClinVar implementation profile unexpectedly validated")
+
+print(profile_validation)
+assert profile_validation["reason_mentions_required_field"]
+
+# %% [markdown]
+# ## Compact self-contained profile bundle
+#
+# The final operation packages the exact statement and its inline objects with
+# the native identifiers used to establish the candidate pairing. The container
+# is tutorial-specific, not a new GA4GH standard.
+
+# %%
+profile_bundle = build_clinvar_profile_bundle(profile_native, profile_statement)
+profile_bundle_path = repository_root / "outputs/clinvar-profile-bundle.json"
+write_json(profile_bundle_path, profile_bundle)
+
+expected_bundle = load_json(
+    repository_root / "data/expected/clinvar-profile-bundle.json"
+)
+assert load_json(profile_bundle_path) == expected_bundle
+print(
+    {
+        "path": profile_bundle_path.relative_to(repository_root).as_posix(),
+        "sha256": sha256(profile_bundle_path),
+        "matches_expected": True,
+    }
+)
+
+# %% [markdown]
 # ## Field mapping
 #
 # | Native evidence | VRS representation | Meaning |
@@ -239,6 +326,8 @@ assert export_summary["matches_committed_bytes"]
 #    proves schema conformance, while pairing requires transformation provenance.
 # 4. Does the exported JSONL include classifications? **No**. It preserves the
 #    VRS layer; classifications belong in VA-Spec statements.
+# 5. Which parts of the second example are normative? **The inline Cat-VRS and
+#    VRS objects.** The enclosing ClinVar statement is an implementation profile.
 #
 # ## Expected takeaways
 #
@@ -248,10 +337,10 @@ assert export_summary["matches_committed_bytes"]
 #
 # ## Limitations and next steps
 #
-# This is an intentionally incomplete Phase 2 notebook. The public Cat-VRS and
-# VA-Spec Parquet sections currently flatten the original objects, and their
-# files are unversioned. Until exact objects and release pairing are available,
-# this notebook does **not** claim native → GKS transformation equivalence and
-# does not fabricate statement traversal. The completed milestone will add
-# statement → categorical variant → VRS traversal and the final multi-product
-# compact bundle.
+# The notebook now demonstrates statement → categorical variant → VRS traversal
+# using an exact versioned profile example. It still does **not** claim that the
+# live NCBI summary and repository example came from the same ClinVar release.
+# The public full-release Cat-VRS and VA-Spec Parquet sections remain flattened
+# and unversioned. A release-matched native/profile fixture remains a prerequisite
+# for declaring Phase 2 acceptance-complete. The expected profile bundle above
+# is a teaching artifact, not a substitute for that missing release provenance.

@@ -72,6 +72,20 @@ derived from this exact NCBI response. Until an exact pairing is verified, the
 native snapshot may be inspected independently but must not be presented as a
 byte-for-byte matched ClinVar-GKS transformation.
 
+## Versioned profile fallback
+
+The pinned ClinVar-GKS commit also contains a complete JSON example for
+`SCV005093950.2`, describing ClinVar Variation ID `44991`. The live NCBI summary
+for `VCV000044991.8` lists `SCV005093950` among its supporting submissions. The
+example provides an exact implementation-profile statement with inline normative
+Cat-VRS and VRS objects, enabling offline cross-product traversal.
+
+This fallback is identifier- and accession-version-paired, but not
+release-paired. Its enclosing oncogenicity proposition uses the ClinVar profile's
+`objectCondition` representation and does not validate against the currently
+pinned normative VA-Spec model, which requires `objectTumorType`. The tutorial
+preserves that upstream object unchanged and tests the incompatibility explicitly.
+
 ## Required resolution
 
 Obtain one of the following from the ClinVar-GKS maintainers or a documented
@@ -99,14 +113,16 @@ The export must identify:
       recorded explicitly.
 - [x] Exact candidate VRS object values are selectively extracted, stored under
       `data/gks/`, and validated without adding DuckDB to runtime dependencies.
+- [x] An exact versioned ClinVar-GKS profile example supports offline statement →
+      Cat-VRS → VRS traversal, with normative nested objects validated separately.
 - [ ] Native XML comes from the same pinned ClinVar release used by the transformer.
-- [ ] GKS JSON is copied from an authoritative output, not reconstructed from a
+- [x] GKS JSON is copied from an authoritative output, not reconstructed from a
       flattened analytical table.
 - [ ] Every source identifier is present in both the native/GKS pairing metadata.
 - [ ] Normative VRS, Cat-VRS, and VA-Spec objects validate with pinned packages.
 - [ ] ClinVar-specific profile extensions are labeled and validated separately.
-- [ ] Statement traversal resolves without network access.
-- [ ] Native bytes remain unchanged under `data/native/clinvar/`.
-- [ ] GKS bytes are stored separately under `data/gks/clinvar/`.
+- [x] Statement traversal resolves without network access.
+- [x] Native bytes remain unchanged under `data/native/clinvar/`.
+- [x] GKS bytes are stored separately under `data/gks/clinvar/`.
 - [ ] The manifest records URLs, releases, retrieval time, licenses, transformer
       commit, model versions, and checksums.

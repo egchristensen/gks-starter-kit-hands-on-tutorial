@@ -19,3 +19,13 @@ Maintainers can rerun the extraction without adding DuckDB to the tutorial:
 ```bash
 uv run --with duckdb python scripts/refresh_clinvar_gks_vrs_fixture.py
 ```
+
+## Versioned implementation-profile statement
+
+`SCV005093950.2-S-ONCO.profile.json` is an exact file from a pinned
+ClinVar-GKS repository commit. Its inline `CategoricalVariant` and `Allele` are
+normative and validate with the pinned Cat-VRS and VRS packages. The outer
+ClinVar statement is an implementation profile: its proposition does not
+validate as the current normative VA-Spec `VariantOncogenicityProposition`.
+The tutorial demonstrates and tests that distinction rather than modifying the
+upstream record.

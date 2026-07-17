@@ -3,13 +3,29 @@ from pathlib import Path
 
 import pytest
 
-from gks_tutorial.io import iter_jsonl, load_json, load_jsonl, load_xml, write_jsonl
+from gks_tutorial.io import (
+    iter_jsonl,
+    load_json,
+    load_jsonl,
+    load_xml,
+    write_json,
+    write_jsonl,
+)
 
 
 def test_load_json(tmp_path: Path) -> None:
     path = tmp_path / "record.json"
     path.write_text(json.dumps({"kind": "format-test"}), encoding="utf-8")
     assert load_json(path) == {"kind": "format-test"}
+
+
+def test_write_json_is_deterministic_and_round_trips(tmp_path: Path) -> None:
+    path = tmp_path / "record.json"
+
+    write_json(path, {"z": 2, "a": 1})
+
+    assert path.read_text(encoding="utf-8") == '{\n  "a": 1,\n  "z": 2\n}\n'
+    assert load_json(path) == {"a": 1, "z": 2}
 
 
 def test_iter_jsonl_skips_blank_lines(tmp_path: Path) -> None:
