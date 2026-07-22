@@ -7,9 +7,11 @@ on:
       - "scripts/verify_data.py"
       - "src/gks_tutorial/manifests.py"
       - "src/gks_tutorial/gks_models.py"
+      - "src/gks_tutorial/discovery.py"
       - "tests/test_clinvar.py"
       - "tests/test_clinvar_gks.py"
       - "tests/test_data_manifest.py"
+      - "tests/test_discovery.py"
       - "pyproject.toml"
       - "uv.lock"
 
@@ -27,4 +29,4 @@ jobs:
       - name: fixture-tests
         run: >-
           uv run pytest tests/test_clinvar.py tests/test_clinvar_gks.py
-          tests/test_data_manifest.py
+          tests/test_data_manifest.py tests/test_discovery.py

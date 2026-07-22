@@ -1,16 +1,18 @@
 # GKS Hands-On Tutorial
 
 This repository is the executable companion prototype for learning GA4GH VRS,
-Cat-VRS, and VA-Spec through small, provenance-tracked examples. Phase 1 and its
-Colab smoke test are complete. Phase 2 currently includes a compact native
-ClinVar API snapshot and candidate linked VRS objects; exact release-matched
-Cat-VRS and VA-Spec records remain a documented upstream-data prerequisite.
+Cat-VRS, and VA-Spec through small, provenance-tracked examples. It includes a
+ClinVar representation tutorial and a literature-to-GKS discovery vignette.
+Exact release-matched ClinVar, Cat-VRS, and VA-Spec records remain a documented
+upstream-data prerequisite for completing Phase 2.
 
 ## Run in Google Colab
 
 [![Open Start Here in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/00_start_here.ipynb)
 
 [![Open ClinVar and GKS in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/01_clinvar_native_and_gks.ipynb)
+
+[![Open Literature Discovery in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/literature_to_gks_discovery.ipynb)
 
 This is the primary zero-local-setup path. Click the badge, select **Runtime → Run
 all**, and accept Colab's standard warning for a notebook loaded from GitHub. The
@@ -67,10 +69,14 @@ archive.
 
 ## Project status
 
-The implementation follows `gks-hands-on-tutorial-implementation-plan.md` phase by
-phase. Phase 2 is active and is not yet acceptance-complete. See
+The implementation uses `gks-hands-on-tutorial-implementation-plan.md` as its
+roadmap. Phase 2 is active and is not yet acceptance-complete. See
 `docs/data-provenance.md` and `docs/clinvar-fixture-selection.md` for the exact
 status and limitations of the bundled records.
+
+The literature discovery notebook is an independent vignette built from the
+same provenance-limited ClinVar profile. It does not relax or satisfy the missing
+release-pairing acceptance criterion.
 
 For the current implementation checkpoint, validation baseline, blocker, and
 recommended continuation sequence, see [`docs/project-handoff.md`](docs/project-handoff.md).

@@ -41,5 +41,6 @@ jobs:
           /tmp/gks-colab-smoke/bin/python -m pip check
       - name: execute-notebook-pairs
         run: |
-          /tmp/gks-colab-smoke/bin/python notebooks/00_start_here.py
-          /tmp/gks-colab-smoke/bin/python notebooks/01_clinvar_native_and_gks.py
+          for notebook in notebooks/*.py; do
+            /tmp/gks-colab-smoke/bin/python "$notebook"
+          done

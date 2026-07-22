@@ -22,3 +22,8 @@ ClinVar-GKS key/value Parquet sections. Its manifest records the section ETags
 and makes the unversioned-release limitation explicit. It must not be described
 as an exact transformation pair until upstream release metadata supports that
 claim.
+
+The literature discovery vignette uses an unmodified PubMed ESummary snapshot
+for PMID `23220880`. PubMed supplies bibliographic metadata, not a GKS mapping.
+The notebook labels its paper-to-Cat-VRS connection as a tutorial-curated
+candidate and does not attach a precise VRS allele to the protein-only mention.

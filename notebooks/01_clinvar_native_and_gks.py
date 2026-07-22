@@ -353,3 +353,5 @@ pretty_print(
 # and unversioned. A release-matched native/profile fixture remains a prerequisite
 # for declaring Phase 2 acceptance-complete. The expected profile bundle above
 # is a teaching artifact, not a substitute for that missing release provenance.
+# Continue with `literature_to_gks_discovery.ipynb` to use these identities in a
+# paper-seeded discovery workflow.

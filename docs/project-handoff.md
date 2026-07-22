@@ -13,7 +13,8 @@ pair is not publicly available in a small extract.
 
 The repository intentionally has not started Phase 3. The implementation plan
 prohibits beginning the gnomAD module until the first ClinVar milestone passes
-all required checks.
+all required checks. The literature discovery vignette was added independently;
+it reuses the provenance-limited Phase 2 profile and does not change that gate.
 
 ## Implemented deliverables
 
@@ -23,6 +24,7 @@ all required checks.
 - Paired Jupytext notebooks:
   - `notebooks/00_start_here.ipynb`
   - `notebooks/01_clinvar_native_and_gks.ipynb`
+  - `notebooks/literature_to_gks_discovery.ipynb`
 - Colab bootstrap logic that clones or updates the repository, installs pinned
   requirements, and clears stale Python modules in reused runtimes.
 - Two exact native NCBI ClinVar ESummary snapshots.
@@ -32,6 +34,9 @@ all required checks.
   `SCV005093950.2`, from pinned commit
   `b3f485375172f789e26b8626854ef1ac4db2e130`.
 - Offline statement → Cat-VRS `CategoricalVariant` → VRS `Allele` traversal.
+- A paper-seeded discovery workflow showing the difference between source-text,
+  Cat-VRS concept, and precise VRS identity queries without assigning unsupported
+  genomic precision to the literature mention.
 - Normative validation of the inline Cat-VRS and VRS objects.
 - An explicit, tested demonstration that the outer ClinVar implementation
   profile is not the current normative VA-Spec oncogenicity representation.
@@ -72,10 +77,10 @@ The following passed immediately before this handoff:
 
 ```text
 uv run ruff check .                              passed
-uv run pytest                                    24 passed
+uv run pytest                                    27 passed
 uv run python scripts/verify_data.py             passed
-uv run python scripts/execute_notebooks.py       2 notebooks passed
-clean requirements-colab.txt environment         2 notebook pairs passed
+uv run python scripts/execute_notebooks.py       3 notebooks passed
+clean requirements-colab.txt environment         3 notebook pairs passed
 uv run python -m build                           sdist and wheel built
 docker compose build/up and container smoke      passed
 git diff --check                                 passed
@@ -88,6 +93,7 @@ archive, or mandatory Docker dependency.
 
 - [Start Here in Colab](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/00_start_here.ipynb)
 - [ClinVar native and GKS in Colab](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/01_clinvar_native_and_gks.ipynb)
+- [Literature to GKS discovery in Colab](https://colab.research.google.com/github/egchristensen/gks-starter-kit-hands-on-tutorial/blob/main/notebooks/literature_to_gks_discovery.ipynb)
 
 For a clean Colab verification, use **Runtime → Disconnect and delete runtime**
 and then **Runtime → Run all**.

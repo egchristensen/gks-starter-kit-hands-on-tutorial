@@ -151,6 +151,8 @@ assert not issues
 # Notebook 01 begins with native ClinVar and VRS, then traverses an exact profile
 # example through inline Cat-VRS and VRS objects. A normative VA-Spec traversal
 # still requires an authoritative release-matched export.
+# The literature discovery vignette then shows how the same identities improve
+# retrieval when a paper and a knowledgebase use different variant language.
 #
 # ## Validation and practical operation
 #

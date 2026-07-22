@@ -87,3 +87,18 @@ datasets:
         sha256: bc87c9e3c07fc7b627792f54e34bd64d437cdaa14444369ecbb34dea8d435732
       - path: data/expected/clinvar-profile-bundle.json
         sha256: 10b8ca8051b00e998e79c45a15dcefd60aa61e829060150de9c2ccc60bd56a3a
+  literature_pubmed_esummary_23220880:
+    source: NCBI PubMed E-utilities ESummary
+    source_record_uid: "23220880"
+    source_accession: PMID:23220880
+    retrieval_date: "2026-07-22"
+    retrieval_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=23220880&retmode=json&tool=gks_hands_on_tutorial
+    release_policy: Live PubMed bibliographic record; not a versioned release
+    terms: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    selection_method: >-
+      Paper selected because its source-native HER2 V777L label demonstrates the
+      discovery gap bridged by the existing ERBB2 Cat-VRS and VRS profile objects.
+    intended_use: Bibliographic seed for a tutorial-curated candidate concept mapping
+    files:
+      - path: data/native/literature/PMID23220880-esummary.json
+        sha256: 01e09c47d35e07313bca6f2113c8b76172987549404262b760c69aaf99bdd2a8

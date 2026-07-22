@@ -1,8 +1,8 @@
 # Tutorial data
 
-This directory contains small Phase 2 ClinVar fixtures. Unmodified source
-snapshots live under `native/`, upstream GKS representations under `gks/`, and a
-deterministic tutorial-derived result under `expected/`.
+This directory contains small ClinVar and PubMed tutorial fixtures. Unmodified
+source snapshots live under `native/`, upstream GKS representations under `gks/`,
+and a deterministic tutorial-derived result under `expected/`.
 
 Every data file must be declared in `manifest.yaml` with its source, release
 policy, retrieval date and URL, license or terms, selection method, source

@@ -12,5 +12,6 @@ preserve and demonstrate that distinction.
 
 The core path intentionally includes no full ClinVar release, general-purpose
 normalizer, SeqRepo archive, UTA instance, PostgreSQL database, or required
-network service. It currently teaches the ClinVar example only; the planned VCF,
-query/exchange, and advanced modules have not been implemented.
+network service. It currently teaches the ClinVar example and a compact
+literature-to-GKS discovery vignette; the planned VCF, full query/exchange, and
+advanced modules have not been implemented.

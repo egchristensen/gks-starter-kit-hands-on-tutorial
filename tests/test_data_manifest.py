@@ -23,6 +23,7 @@ def test_repository_manifest_is_valid() -> None:
     manifest = load_manifest(path)
     assert manifest["manifest_version"] == 1
     assert "clinvar_native_esummary_12582" in manifest["datasets"]
+    assert "literature_pubmed_esummary_23220880" in manifest["datasets"]
     assert verify_manifest(path, repository_root=Path.cwd()) == []
 
 
