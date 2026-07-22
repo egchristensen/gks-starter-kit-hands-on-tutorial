@@ -24,3 +24,22 @@ jobs:
         run: uv run make colab-requirements
       - name: package-build
         run: uv run make build
+
+  colab-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m venv /tmp/gks-colab-smoke
+      - name: install-colab-requirements
+        run: |
+          /tmp/gks-colab-smoke/bin/python -m pip install \
+            --requirement requirements-colab.txt
+          /tmp/gks-colab-smoke/bin/python -m pip install --no-deps .
+          /tmp/gks-colab-smoke/bin/python -m pip check
+      - name: execute-notebook-pairs
+        run: |
+          /tmp/gks-colab-smoke/bin/python notebooks/00_start_here.py
+          /tmp/gks-colab-smoke/bin/python notebooks/01_clinvar_native_and_gks.py

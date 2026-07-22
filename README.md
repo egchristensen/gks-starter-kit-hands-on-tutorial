@@ -59,8 +59,11 @@ Local setup is intended primarily for contributors and maintainers.
 docker compose up --build
 ```
 
-Open the URL printed by Jupyter. The image contains only the tutorial runtime and
-committed small fixtures—no SeqRepo, UTA, PostgreSQL, or reference archive.
+Open the token-bearing `127.0.0.1` URL printed by Jupyter. Compose binds Jupyter
+to the local machine only, and the container runs as an unprivileged user with
+the dependency versions from `uv.lock`. The image contains only the tutorial
+runtime and committed small fixtures—no SeqRepo, UTA, PostgreSQL, or reference
+archive.
 
 ## Project status
 

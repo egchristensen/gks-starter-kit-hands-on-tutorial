@@ -1,10 +1,15 @@
 # Data provenance
 
 Every committed input must have a `data/manifest.yaml` dataset entry containing its
-source name and release, retrieval date and URL, license or terms, selection method
-and source identifiers, file paths and SHA-256 checksums. Transformed GKS outputs
-also record transformer repository/commit and pinned VRS, Cat-VRS, and VA-Spec
-versions. Native bytes are never edited during transformation.
+source name and release or explicit release policy, retrieval date and URL, license
+or terms, selection method and source identifiers, file paths, and SHA-256 checksums.
+Transformed GKS outputs also record transformer repository/commit and pinned VRS,
+Cat-VRS, and VA-Spec versions. Native bytes are never edited during transformation.
+
+`python scripts/verify_data.py` enforces the minimum metadata fields, confines
+declared paths to `data/`, rejects duplicate declarations, checks sizes and
+SHA-256 digests, parses JSON/JSONL, and validates files annotated with a
+`gks_product` using the pinned normative models.
 
 The first Phase 2 native fixture is an exact NCBI ESummary response. Its manifest
 explicitly records that it comes from the live weekly API rather than a pinned

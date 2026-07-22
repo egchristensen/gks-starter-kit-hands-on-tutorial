@@ -142,12 +142,13 @@ assert not issues
 # - **Cat-VRS** groups variations into useful categorical concepts.
 # - **VA-Spec** represents statements and evidence about variation.
 #
-# Notebook 01 begins with native ClinVar and VRS. Cat-VRS and VA-Spec traversal
-# will be added only when an exact release-matched export is available.
+# Notebook 01 begins with native ClinVar and VRS, then traverses an exact profile
+# example through inline Cat-VRS and VRS objects. A normative VA-Spec traversal
+# still requires an authoritative release-matched export.
 #
 # ## Validation and practical operation
 #
-# The assertions above validate the Phase 1 manifest and checksum plumbing.
+# The assertions above validate the repository manifest and fixture integrity.
 #
 # ## Exercises
 #

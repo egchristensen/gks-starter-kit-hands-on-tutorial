@@ -15,7 +15,7 @@ test:
 
 notebooks:
 	python scripts/execute_notebooks.py
-	jupytext --test --to py:percent notebooks/00_start_here.ipynb
+	jupytext --test --to py:percent notebooks/*.ipynb
 
 lab:
 	jupyter lab --ip=0.0.0.0 --port=8888

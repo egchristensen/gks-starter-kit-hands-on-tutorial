@@ -1,13 +1,25 @@
-FROM python:3.11-slim
+FROM python:3.11.15-slim-bookworm@sha256:b18992999dbe963a45a8a4da40ac2b1975be1a776d939d098c647482bcad5cba
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    HOME="/home/tutorial" \
+    PATH="/tutorial/.venv/bin:$PATH"
 WORKDIR /tutorial
-COPY pyproject.toml README.md LICENSE ./
-COPY src ./src
-RUN python -m pip install --no-cache-dir -e '.[tutorial]'
-COPY data ./data
-COPY notebooks ./notebooks
-COPY outputs ./outputs
+
+RUN python -m pip install --no-cache-dir uv==0.11.31 \
+    && useradd --create-home --uid 1000 tutorial \
+    && chown tutorial:tutorial /tutorial
+USER tutorial
+
+COPY --chown=tutorial:tutorial pyproject.toml uv.lock README.md LICENSE ./
+COPY --chown=tutorial:tutorial src ./src
+RUN uv sync --frozen --no-dev --extra tutorial
+
+COPY --chown=tutorial:tutorial data ./data
+COPY --chown=tutorial:tutorial notebooks ./notebooks
+COPY --chown=tutorial:tutorial outputs ./outputs
+
 EXPOSE 8888
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--ServerApp.token=", "--ServerApp.password="]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser"]

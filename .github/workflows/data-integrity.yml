@@ -6,6 +6,12 @@ on:
       - "data/**"
       - "scripts/verify_data.py"
       - "src/gks_tutorial/manifests.py"
+      - "src/gks_tutorial/gks_models.py"
+      - "tests/test_clinvar.py"
+      - "tests/test_clinvar_gks.py"
+      - "tests/test_data_manifest.py"
+      - "pyproject.toml"
+      - "uv.lock"
 
 jobs:
   data-integrity:
@@ -16,4 +22,9 @@ jobs:
         with:
           python-version: "3.11"
       - run: uv sync --locked --extra dev
-      - run: uv run make verify-data
+      - name: verify-manifest-and-objects
+        run: uv run make verify-data
+      - name: fixture-tests
+        run: >-
+          uv run pytest tests/test_clinvar.py tests/test_clinvar_gks.py
+          tests/test_data_manifest.py

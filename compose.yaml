@@ -1,8 +1,9 @@
 services:
   tutorial:
     build: .
+    init: true
     ports:
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     volumes:
       - ./notebooks:/tutorial/notebooks
       - ./outputs:/tutorial/outputs

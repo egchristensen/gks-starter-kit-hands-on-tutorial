@@ -1,7 +1,7 @@
 # Project handoff
 
-**Updated:** 2026-07-17  
-**Branch:** `main`  
+**Updated:** 2026-07-22
+**Branch:** `main`
 **Implementation phase:** Phase 2 — ClinVar fixture and end-to-end notebook
 
 ## Current state
@@ -36,6 +36,13 @@ all required checks.
 - An explicit, tested demonstration that the outer ClinVar implementation
   profile is not the current normative VA-Spec oncogenicity representation.
 - Deterministic JSON/JSONL export and an expected compact profile bundle.
+- An executable provenance contract that validates required metadata, confines
+  paths to `data/`, checks digests and syntax, and dispatches annotated normative
+  objects to the pinned GKS models.
+- A locked, non-root Docker image with token-authenticated Jupyter exposed only
+  on the host loopback interface.
+- A clean Colab-requirements CI smoke test and synchronization checks for every
+  Jupytext notebook pair.
 - Maintainer-only fixture refresh/build scripts that do not add DuckDB or other
   heavy tools to the tutorial runtime.
 
@@ -65,10 +72,12 @@ The following passed immediately before this handoff:
 
 ```text
 uv run ruff check .                              passed
-uv run pytest                                    21 passed
+uv run pytest                                    24 passed
 uv run python scripts/verify_data.py             passed
 uv run python scripts/execute_notebooks.py       2 notebooks passed
+clean requirements-colab.txt environment         2 notebook pairs passed
 uv run python -m build                           sdist and wheel built
+docker compose build/up and container smoke      passed
 git diff --check                                 passed
 ```
 
