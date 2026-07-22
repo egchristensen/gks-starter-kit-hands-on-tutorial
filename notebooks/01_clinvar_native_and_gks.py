@@ -35,6 +35,7 @@
 
 # %%
 import importlib
+import json
 import os
 import subprocess
 import sys
@@ -119,6 +120,11 @@ from gks_tutorial.gks_models import validate_gks_object
 from gks_tutorial.io import load_json, load_jsonl, write_json, write_jsonl
 from gks_tutorial.manifests import load_manifest, sha256, verify_manifest
 
+
+def pretty_print(value: object) -> None:
+    """Render structured cell output as stable, indented JSON."""
+    print(json.dumps(value, indent=2, ensure_ascii=False, default=str))
+
 # %% [markdown]
 # ## Input data and provenance
 #
@@ -131,7 +137,7 @@ manifest_path = repository_root / "data" / "manifest.yaml"
 manifest = load_manifest(manifest_path)
 issues = verify_manifest(manifest_path, repository_root=repository_root)
 assert not issues
-print(
+pretty_print(
     {
         "native": manifest["datasets"]["clinvar_native_esummary_12582"],
         "gks": manifest["datasets"]["clinvar_gks_candidate_vrs_12582"],
@@ -151,7 +157,7 @@ native_view = {
     "title": native["title"],
     "classifications": classification_summary(native),
 }
-print(native_view)
+pretty_print(native_view)
 
 # %% [markdown]
 # ## GKS representation
@@ -162,7 +168,10 @@ print(native_view)
 # %%
 gks_objects = load_jsonl(repository_root / "data/gks/clinvar/VCV000012582.67-vrs.jsonl")
 validated = [validate_gks_object(value, product="vrs") for value in gks_objects]
-[(value.type, getattr(value, "id", None)) for value in validated]
+validated_view = [
+    {"type": value.type, "id": getattr(value, "id", None)} for value in validated
+]
+pretty_print(validated_view)
 
 # %% [markdown]
 # ## Validation and traversal
@@ -181,7 +190,7 @@ traversal = {
     "inter_residue_interval": [int(location["start"]), int(location["end"])],
     "state": allele["state"]["sequence"],
 }
-print(traversal)
+pretty_print(traversal)
 
 # %% [markdown]
 # ## Practical query
@@ -201,7 +210,7 @@ query_result = {
     "native_classifications": classification_summary(native),
     "classifications_stored_on_vrs_allele": "classification" in allele,
 }
-print(query_result)
+pretty_print(query_result)
 
 # %% [markdown]
 # ## Deterministic offline export
@@ -225,7 +234,7 @@ export_summary = {
     "sha256": sha256(output_path),
     "matches_committed_bytes": sha256(output_path) == sha256(source_path),
 }
-print(export_summary)
+pretty_print(export_summary)
 assert exported_objects == gks_objects
 assert export_summary["matches_committed_bytes"]
 
@@ -259,7 +268,7 @@ profile_traversal = {
     "vrs": validated_inline_vrs.id,
     "classification": profile_statement["classification"]["name"],
 }
-print(profile_traversal)
+pretty_print(profile_traversal)
 
 # %% [markdown]
 # ## Normative object or implementation profile?
@@ -281,7 +290,7 @@ except ValueError as profile_error:
 else:  # pragma: no cover - guards against accidentally changing the claim
     raise AssertionError("ClinVar implementation profile unexpectedly validated")
 
-print(profile_validation)
+pretty_print(profile_validation)
 assert profile_validation["reason_mentions_required_field"]
 
 # %% [markdown]
@@ -300,7 +309,7 @@ expected_bundle = load_json(
     repository_root / "data/expected/clinvar-profile-bundle.json"
 )
 assert load_json(profile_bundle_path) == expected_bundle
-print(
+pretty_print(
     {
         "path": profile_bundle_path.relative_to(repository_root).as_posix(),
         "sha256": sha256(profile_bundle_path),

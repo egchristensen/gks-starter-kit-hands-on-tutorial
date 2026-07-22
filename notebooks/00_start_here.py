@@ -33,6 +33,7 @@
 
 # %%
 import importlib
+import json
 import os
 import subprocess
 import sys
@@ -117,6 +118,11 @@ else:
 from gks_tutorial.environment import diagnostics
 from gks_tutorial.manifests import load_manifest, verify_manifest
 
+
+def pretty_print(value: object) -> None:
+    """Render structured cell output as stable, indented JSON."""
+    print(json.dumps(value, indent=2, ensure_ascii=False, default=str))
+
 # %% [markdown]
 # ## Input data and provenance
 #
@@ -129,7 +135,7 @@ installed = diagnostics()
 manifest = load_manifest(manifest_path)
 issues = verify_manifest(manifest_path, repository_root=repository_root)
 summary = {"installed": installed, "manifest": manifest, "issues": issues}
-print(summary)
+pretty_print(summary)
 
 # %%
 assert manifest["manifest_version"] == 1
